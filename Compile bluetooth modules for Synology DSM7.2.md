@@ -34,8 +34,20 @@ make -C /usr/local/x86_64-pc-linux-gnu/x86_64-pc-linux-gnu/sys-root/usr/lib/modu
 
 exit
 
-# copy the 2 files bluetooth.ko btusb.ko
+# copy the 2 files bluetooth.ko btusb.ko to to NAS /lib/modules/
 # /toolkit/build_env/ds.geminilake-7.2/usr/local/x86_64-pc-linux-gnu/x86_64-pc-linux-gnu/sys-root/usr/src/linux-4.4.302/net/bluetooth/bluetooth.ko
 # /toolkit/build_env/ds.geminilake-7.2/usr/local/x86_64-pc-linux-gnu/x86_64-pc-linux-gnu/sys-root/usr/src/linux-4.4.302/drivers/bluetooth//btusb.ko
+sudo cp bluetooth.ko btusb.ko /lib/modules/
+
+# create a startup file on nas to load them on boot
+echo -e "#!/bin/sh\ncase \$1 in\n start)\n insmod /lib/modules/bluetooth.ko > /dev/null 2>&1\n insmod /lib/modules/btusb.ko > /dev/null 2>&1\n ;;\n stop)\n exit 0\n ;;\n *)\n exit 1\n ;;\nesac" | sudo tee /usr/local/etc/rc.d/bluetooth-modules.sh
+
+sudo chmod 755 /usr/local/etc/rc.d/bluetooth-modules.sh
+
+# execute manually this time
+sudo /usr/local/etc/rc.d/bluetooth-modules.sh start
+
+# To test if the module is loaded:
+lsmod | grep bt
 
 ```
