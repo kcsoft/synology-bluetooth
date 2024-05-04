@@ -2,6 +2,8 @@
 
 **Compile bluetooth modules for Synology DSM7.1**
 
+**The guide for DSM7.2 is [here](https://github.com/kcsoft/synology-bluetooth/blob/master/Compile%20bluetooth%20modules%20for%20Synology%20DSM7.2.md)**
+
 _The guide is for geminilake architecture, kernel version 4.4.180+ but the steps are similar for other architectures._
 
 ## Steps
